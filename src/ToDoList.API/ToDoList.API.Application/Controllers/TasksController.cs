@@ -100,5 +100,19 @@ namespace ToDoList.API.Application.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete]
+        public IActionResult DeleteTask(int id)
+        {
+            var taskFromStore = TaskDataStore.Current.Tasks.FirstOrDefault(TaskDto => TaskDto.Id == id);
+            if (taskFromStore == null)
+            {
+                return NotFound();
+            }
+
+            TaskDataStore.Current.Tasks.Remove(taskFromStore);
+
+            return NoContent();
+        }
     }
 }
