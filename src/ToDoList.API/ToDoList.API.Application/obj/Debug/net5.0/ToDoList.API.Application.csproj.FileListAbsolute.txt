@@ -27,3 +27,7 @@ C:\Repos\z_Learning\ToDoList\src\ToDoList.API\ToDoList.API.Application\obj\Debug
 C:\Repos\z_Learning\ToDoList\src\ToDoList.API\ToDoList.API.Application\obj\Debug\net5.0\ref\ToDoList.API.Application.dll
 C:\Repos\z_Learning\ToDoList\src\ToDoList.API\ToDoList.API.Application\obj\Debug\net5.0\ToDoList.API.Application.pdb
 C:\Repos\z_Learning\ToDoList\src\ToDoList.API\ToDoList.API.Application\obj\Debug\net5.0\ToDoList.API.Application.genruntimeconfig.cache
+C:\Repos\z_Learning\ToDoList\src\ToDoList.API\ToDoList.API.Application\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Repos\z_Learning\ToDoList\src\ToDoList.API\ToDoList.API.Application\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Repos\z_Learning\ToDoList\src\ToDoList.API\ToDoList.API.Application\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Repos\z_Learning\ToDoList\src\ToDoList.API\ToDoList.API.Application\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

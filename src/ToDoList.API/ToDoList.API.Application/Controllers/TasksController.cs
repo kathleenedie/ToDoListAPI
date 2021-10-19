@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.API.Application.Models;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ToDoList.API.Application.Controllers
 {  
@@ -62,6 +63,40 @@ namespace ToDoList.API.Application.Controllers
             taskToUpdate.Category = task.Category;
             taskToUpdate.Description = task.Description;
             taskToUpdate.Completed = task.Completed;
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult PartiallyUpdateTask(int id, [FromBody] JsonPatchDocument<TaskForUpdateDto> patchDoc)
+        {
+            var taskFromStore = TaskDataStore.Current.Tasks.FirstOrDefault(taskDto => taskDto.Id == id);
+            if (taskFromStore == null)
+            {
+                return NotFound();
+            }
+
+            var taskToPatch = new TaskForUpdateDto()
+            {
+                Category = taskFromStore.Category,
+                Description = taskFromStore.Description,
+                Completed = taskFromStore.Completed
+            };
+
+            patchDoc.ApplyTo(taskToPatch, ModelState);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!TryValidateModel(taskToPatch))
+            {
+                return BadRequest(ModelState);
+            }
+
+            taskFromStore.Category = taskToPatch.Category;
+            taskFromStore.Description = taskToPatch.Description;
+            taskFromStore.Completed = taskToPatch.Completed;
 
             return NoContent();
         }

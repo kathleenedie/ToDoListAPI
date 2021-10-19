@@ -1,11 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "/+HIGAz2VfHx1h/Q50uqPQUKu78lnB6ON8gwYucSQ2A5h6wTHeZRCzUyueM08GM5YsZNUSauf8kuafLxNMevPQ==",
+  "dgSpecHash": "8PvMOXdx0mXiC0Pw8sL2XyIdcXaVlJdWxX7X7usBII+pfFC/tbi43whQnvzTK2VcFNAiFKSf+4qeveot7xvAdA==",
   "success": true,
   "projectFilePath": "C:\\Repos\\z_Learning\\ToDoList\\src\\ToDoList.API\\ToDoList.API.Application\\ToDoList.API.Application.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\E0070773\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\5.0.11\\microsoft.aspnetcore.jsonpatch.5.0.11.nupkg.sha512",
+    "C:\\Users\\E0070773\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\5.0.11\\microsoft.aspnetcore.mvc.newtonsoftjson.5.0.11.nupkg.sha512",
+    "C:\\Users\\E0070773\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\E0070773\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\E0070773\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\E0070773\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\E0070773\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\E0070773\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
     "C:\\Users\\E0070773\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
     "C:\\Users\\E0070773\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
