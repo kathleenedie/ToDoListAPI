@@ -35,7 +35,7 @@ namespace ToDoList.API.Application
                 new TaskDto()
                 {
                     Id = 3,
-                    Category = "Home",
+                    Category = "Garden",
                     Description = "Buy sharp sand for the patio extension",
                     Completed = false
                 },
@@ -43,7 +43,7 @@ namespace ToDoList.API.Application
                 new TaskDto()
                 {
                     Id = 4,
-                    Category = "Home",
+                    Category = "Garden",
                     Description = "Pick up slabs from Jean for patio extension",
                     Completed = true
                 },

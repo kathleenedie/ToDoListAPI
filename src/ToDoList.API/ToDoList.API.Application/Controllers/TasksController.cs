@@ -49,5 +49,21 @@ namespace ToDoList.API.Application.Controllers
                 new {id = finalTask.Id},
                 finalTask);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateTask(int id, [FromBody] TaskForUpdateDto task)
+        {
+            var taskToUpdate = TaskDataStore.Current.Tasks.FirstOrDefault(taskDto => taskDto.Id == id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            taskToUpdate.Category = task.Category;
+            taskToUpdate.Description = task.Description;
+            taskToUpdate.Completed = task.Completed;
+
+            return NoContent();
+        }
     }
 }
