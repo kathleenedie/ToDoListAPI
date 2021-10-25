@@ -13,7 +13,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
+using ToDoList.API.Application.Models;
+using ToDoList.API.Application.Repositories;
 
 namespace ToDoList.API.Application
 {
@@ -33,7 +36,8 @@ namespace ToDoList.API.Application
             services
                 .AddControllers()
                 .AddNewtonsoftJson();
-                
+            services.AddDbContext<ToDoTaskContext>(options => options.UseSqlite("Data source=tasks.db"));
+            services.AddScoped<IToDoTaskRepository, ToDoTaskRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ToDoList.API.Application", Version = "v1" });

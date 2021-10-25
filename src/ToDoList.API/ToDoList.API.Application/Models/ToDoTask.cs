@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ToDoList.API.Application.Models
 {
-    public class TaskDto
+    public class ToDoTask
     {
         public int Id { get; set; }
         public string Category { get; set; }

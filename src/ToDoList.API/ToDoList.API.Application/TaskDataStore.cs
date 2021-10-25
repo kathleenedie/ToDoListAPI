@@ -10,13 +10,13 @@ namespace ToDoList.API.Application
     {
         public static TaskDataStore Current { get; } = new TaskDataStore();
 
-        public List<TaskDto> Tasks { get; set; }
+        public List<ToDoTask> Tasks { get; set; }
 
         public TaskDataStore()
         {
-            Tasks = new List<TaskDto>()
+            Tasks = new List<ToDoTask>()
             {
-                new TaskDto()
+                new ToDoTask()
                 {
                     Id = 1,
                     Category = "Home",
@@ -24,7 +24,7 @@ namespace ToDoList.API.Application
                     Completed = false
                 },
 
-                new TaskDto()
+                new ToDoTask()
                 {
                     Id = 2,
                     Category = "Study",
@@ -32,7 +32,7 @@ namespace ToDoList.API.Application
                     Completed = false
                 },
 
-                new TaskDto()
+                new ToDoTask()
                 {
                     Id = 3,
                     Category = "Garden",
@@ -40,7 +40,7 @@ namespace ToDoList.API.Application
                     Completed = false
                 },
 
-                new TaskDto()
+                new ToDoTask()
                 {
                     Id = 4,
                     Category = "Garden",
@@ -48,7 +48,7 @@ namespace ToDoList.API.Application
                     Completed = true
                 },
 
-                new TaskDto()
+                new ToDoTask()
                 {
                     Id = 5,
                     Category = "Work",

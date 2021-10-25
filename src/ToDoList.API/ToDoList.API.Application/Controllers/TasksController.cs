@@ -1,117 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.API.Application.Models;
 using Microsoft.AspNetCore.JsonPatch;
+using ToDoList.API.Application.Repositories;
 
 namespace ToDoList.API.Application.Controllers
-{  
+{
     [ApiController]
     [Route("api/tasks")]
 
     public class TasksController : ControllerBase
     {
-        [HttpGet(Name = "GetTasks")]
-        public IActionResult GetTasks()
+        private readonly IToDoTaskRepository _toDoTaskRepository;
+
+        public TasksController(IToDoTaskRepository toDoTaskRepository)
         {
-            return Ok(TaskDataStore.Current.Tasks);
+            _toDoTaskRepository = toDoTaskRepository;
+        }
+
+        [HttpGet(Name = "GetTasks")]
+        public async Task<IEnumerable<ToDoTask>> GetTasks()
+        {
+            return await _toDoTaskRepository.Get();
         }
 
         [HttpGet("{id}", Name = "GetTask")]
-        public IActionResult GetTask(int id)
+        public async Task<ActionResult<ToDoTask>> GetTask(int id)
         {
-            var taskToReturn = TaskDataStore.Current.Tasks.FirstOrDefault(taskDto => taskDto.Id == id);
-
-            if (taskToReturn == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(taskToReturn);
+            return await _toDoTaskRepository.Get(id);
         }
 
-        [HttpPost]
-        public IActionResult CreateTask([FromBody] TaskForCreationDto task)
+        [HttpPost(Name = "PostTasks")]
+        public async Task<ActionResult<ToDoTask>> PostTask([FromBody] ToDoTask toDoTask)
         {
-            var maxTaskId = TaskDataStore.Current.Tasks.Max(t => t.Id);
-
-            var finalTask = new TaskDto()
-            {
-                Id = ++maxTaskId,
-                Category = task.Category,
-                Description = task.Description
-            };
-
-            TaskDataStore.Current.Tasks.Add(finalTask);
-
-            return CreatedAtRoute("GetTasks",
-                new {id = finalTask.Id},
-                finalTask);
+            var newTask = await _toDoTaskRepository.Create(toDoTask);
+            return CreatedAtAction(nameof(GetTasks), new {id = newTask.Id}, newTask);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateTask(int id, [FromBody] TaskForUpdateDto task)
+        [HttpPut(Name = "UpdateTasks")]
+        public async Task<ActionResult<ToDoTask>> UpdateTask(int id, [FromBody] ToDoTask toDoTask)
         {
-            var taskToUpdate = TaskDataStore.Current.Tasks.FirstOrDefault(taskDto => taskDto.Id == id);
-            if (task == null)
+            if (id != toDoTask.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            taskToUpdate.Category = task.Category;
-            taskToUpdate.Description = task.Description;
-            taskToUpdate.Completed = task.Completed;
-
+            await _toDoTaskRepository.Update(toDoTask);
             return NoContent();
         }
 
-        [HttpPatch("{id}")]
-        public IActionResult PartiallyUpdateTask(int id, [FromBody] JsonPatchDocument<TaskForUpdateDto> patchDoc)
+        [HttpDelete(Name = "DeleteTasks")]
+        public async Task<ActionResult> Delete(int id)
         {
-            var taskFromStore = TaskDataStore.Current.Tasks.FirstOrDefault(taskDto => taskDto.Id == id);
-            if (taskFromStore == null)
-            {
+            var taskToDelete = await _toDoTaskRepository.Get(id);
+            if (taskToDelete == null)
                 return NotFound();
-            }
 
-            var taskToPatch = new TaskForUpdateDto()
-            {
-                Category = taskFromStore.Category,
-                Description = taskFromStore.Description,
-                Completed = taskFromStore.Completed
-            };
-
-            patchDoc.ApplyTo(taskToPatch, ModelState);
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (!TryValidateModel(taskToPatch))
-            {
-                return BadRequest(ModelState);
-            }
-
-            taskFromStore.Category = taskToPatch.Category;
-            taskFromStore.Description = taskToPatch.Description;
-            taskFromStore.Completed = taskToPatch.Completed;
-
-            return NoContent();
-        }
-
-        [HttpDelete]
-        public IActionResult DeleteTask(int id)
-        {
-            var taskFromStore = TaskDataStore.Current.Tasks.FirstOrDefault(TaskDto => TaskDto.Id == id);
-            if (taskFromStore == null)
-            {
-                return NotFound();
-            }
-
-            TaskDataStore.Current.Tasks.Remove(taskFromStore);
-
+            await _toDoTaskRepository.Delete(taskToDelete.Id);
             return NoContent();
         }
     }
