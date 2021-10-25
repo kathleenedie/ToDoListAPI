@@ -53,6 +53,40 @@ namespace ToDoList.API.Application.Controllers
             return NoContent();
         }
 
+        [HttpPatch("{id}", Name = "PatchTask")]
+        public async Task<ActionResult<ToDoTask>> PatchTask(int id, [FromBody] JsonPatchDocument<ToDoTask> patchDoc)
+        {
+            var originalTask = await _toDoTaskRepository.Get(id);
+
+            if (id != originalTask.Id)
+            {
+                return NotFound();
+            }
+
+            var patchTask = new ToDoTask()
+            {
+                Category = originalTask.Category,
+                Description = originalTask.Description,
+                Completed = originalTask.Completed
+            };
+
+            patchDoc.ApplyTo(originalTask, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!TryValidateModel(patchTask))
+            {
+                return BadRequest(ModelState);
+            }
+
+            await _toDoTaskRepository.Update(originalTask);
+
+            return NoContent();
+        }
+
         [HttpDelete(Name = "DeleteTasks")]
         public async Task<ActionResult> Delete(int id)
         {
