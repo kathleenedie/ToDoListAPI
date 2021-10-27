@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ToDoList.API.Application.Models;
@@ -43,6 +47,30 @@ namespace ToDoList.API.Application.Repositories
         {
             _toDoTaskContext.Entry(toDoTask).State = EntityState.Modified;
             await _toDoTaskContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<ToDoTask>> GetCompleted()
+        {
+            var toDoTasksCompleted = await _toDoTaskContext.ToDoTasks.Where(t => t.Completed == true).ToListAsync();
+            return toDoTasksCompleted;
+        }
+
+        public async Task<IEnumerable<ToDoTask>> GetToDo()
+        {
+            var toDoTasksToDo = await _toDoTaskContext.ToDoTasks.Where(t => t.Completed == false).ToListAsync();
+            return toDoTasksToDo;
+        }
+
+        public async Task<IEnumerable<ToDoTask>> CategoryFilter(string category)
+        {
+            var categoryTasks = await _toDoTaskContext.ToDoTasks.Where(t => t.Category == category).ToListAsync();
+            return categoryTasks;
+        }
+
+        public Task<List<ToDoTask>> CategoryStatus(string category, bool completed)
+        {
+            return _toDoTaskContext.ToDoTasks
+                .Where(t => t.Category == category && t.Completed == completed).ToListAsync();
         }
     }
 }

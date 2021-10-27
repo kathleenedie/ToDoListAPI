@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Threading.Tasks;
@@ -96,6 +97,30 @@ namespace ToDoList.API.Application.Controllers
 
             await _toDoTaskRepository.Delete(taskToDelete.Id);
             return NoContent();
+        }
+
+        [HttpGet("done", Name = "Completed")]
+        public async Task<IEnumerable<ToDoTask>> GetCompleted()
+        {
+            return await _toDoTaskRepository.GetCompleted();
+        }
+
+        [HttpGet("todo", Name = "StillToDo")]
+        public async Task<IEnumerable<ToDoTask>> GetToDo()
+        {
+            return await _toDoTaskRepository.GetToDo();
+        }
+
+        [HttpGet("category/{category}", Name = "CategoryFilter")]
+        public async Task<IEnumerable<ToDoTask>> GetByCategory(string category)
+        {
+            return await _toDoTaskRepository.CategoryFilter(category);
+        }
+
+        [HttpGet("category/{category}/{completed}", Name = "CategoryStatus")]
+        public async Task<List<ToDoTask>> GetStatusByCategory(string category, bool completed)
+        {
+            return await _toDoTaskRepository.CategoryStatus(category, completed);
         }
     }
 }

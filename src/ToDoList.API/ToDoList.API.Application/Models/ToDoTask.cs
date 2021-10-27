@@ -9,6 +9,7 @@ namespace ToDoList.API.Application.Models
 {
     public class ToDoTask
     {
+        [Key]
         public int Id { get; set; }
         
         [MaxLength(20)]
